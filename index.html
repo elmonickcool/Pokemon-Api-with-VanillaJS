@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<img src="" alt="" id="pokemon-artwork">
+			</div>
+			<div class="col">
+				<h1 id="pokemon-name"></h1>
+				<strong>Abilities:</strong>
+				<p id="pokemon-ability"> </p>
+				<strong>Type:</strong>
+				<p id="pokemon-type"></p>
+				<strong>Weight:</strong>
+				<p id="pokemon-weight"></p>
+				<strong>Height:</strong>
+				<p id="pokemon-height"></p>
+			</div>
+		</div>
+		<h2 id="pokemon-id"></h2>
+		
+		
+		
+		<p id="pokemon-type"></p>
+		
+	</div>
+	<script>
+	function fetchPokemon(name){
+		const url=`https://pokeapi.co/api/v2/pokemon/${name}`;
+		fetch(url)
+			.then(result =>{
+				return result.json();
+			})
+			.then(data => {
+				console.log(data);
+				document.getElementById("pokemon-id").innerHTML+=`#${data.id.toString().padStart(3,0)}`;
+				document.getElementById("pokemon-name").innerHTML+=`${data.name.charAt(0).toUpperCase()+data.name.slice(1)}`;
+				document.getElementById("pokemon-artwork").src=`${data.sprites.other["official-artwork"].front_default}`;
+				document.getElementById("pokemon-weight").innerHTML+=`${data.weight} kg`;
+				document.getElementById("pokemon-height").innerHTML+=`${data.height} m`;
+				for(t of data.types){
+					document.getElementById("pokemon-type").innerHTML+=t.type["name"]+'&nbsp';
+				}
+				for(x of data.abilities){
+					document.getElementById("pokemon-ability").innerHTML+=x.ability["name"]+'&nbsp';
+				}
+				console.log(data.name.charAt(0).toUpperCase()+data.name.slice(1)); 
+				console.log(data.name);
+				console.log(data.id);
+				console.log(data.sprites.other["official-artwork"].front_default);
+			})
+	};
+	fetchPokemon('pikachu');
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
